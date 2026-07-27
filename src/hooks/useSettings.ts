@@ -15,6 +15,16 @@ export function useSettings() {
     []
   ) as Settings | undefined;
 
+  // Apply light/dark class to <html> whenever theme changes
+  useEffect(() => {
+    if (!settings) return;
+    if (settings.theme === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+  }, [settings?.theme]);
+
   const update = async (updates: Partial<Settings>) => {
     await updateSettings(updates);
   };

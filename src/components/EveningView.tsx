@@ -49,8 +49,8 @@ export const EveningView: React.FC<EveningViewProps> = ({ entry, onSave }) => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
         <Moon className="w-12 h-12 text-purple-400 mb-4" />
-        <h2 className="text-xl font-semibold text-gray-300 mb-2">No intentions set yet</h2>
-        <p className="text-sm text-gray-500">Start your morning first to set today's intentions.</p>
+        <h2 className="text-xl font-semibold text-[var(--text-secondary)] mb-2">No intentions set yet</h2>
+        <p className="text-sm text-[var(--text-muted)]">Start your morning first to set today's intentions.</p>
       </div>
     );
   }
@@ -64,7 +64,7 @@ export const EveningView: React.FC<EveningViewProps> = ({ entry, onSave }) => {
         </div>
         <h1 className="text-2xl font-bold text-white mb-1">How did your day go?</h1>
         <div className="flex items-center gap-3 mt-3">
-          <div className="flex-1 bg-[#0a0a0f]/60 rounded-full h-2">
+          <div className="flex-1 bg-black/30 rounded-full h-2">
             <div
               className="h-2 rounded-full bg-gradient-to-r from-amber-500 to-emerald-500 transition-all duration-500"
               style={{ width: `${total > 0 ? (completedCount / total) * 100 : 0}%` }}
@@ -75,8 +75,8 @@ export const EveningView: React.FC<EveningViewProps> = ({ entry, onSave }) => {
       </div>
 
       <div className="flex-1 px-6 -mt-6 flex flex-col gap-4">
-        <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5 shadow-xl">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
+        <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5 shadow-xl">
+          <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
             Check off your intentions
           </h2>
           <div className="flex flex-col gap-2">
@@ -92,16 +92,16 @@ export const EveningView: React.FC<EveningViewProps> = ({ entry, onSave }) => {
           </div>
         </div>
 
-        <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+        <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5">
+          <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-4">
             Energy level today
           </h2>
           <EnergyRating value={energyRating} onChange={setEnergyRating} readOnly={saved} />
         </div>
 
-        <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-            Reflection <span className="text-gray-600 normal-case font-normal">(optional)</span>
+        <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5">
+          <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
+            Reflection <span className="text-[var(--text-muted)] normal-case font-normal">(optional)</span>
           </h2>
           <textarea
             value={reflection}
@@ -109,9 +109,9 @@ export const EveningView: React.FC<EveningViewProps> = ({ entry, onSave }) => {
             disabled={saved}
             placeholder="Any wins, blockers, or thoughts?"
             rows={4}
-            className="w-full bg-[#0a0a0f] border border-[#1e1e2a] rounded-xl px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 resize-none transition-colors disabled:opacity-60"
+            className="w-full bg-[var(--card-input)] border border-[var(--border)] rounded-xl px-3 py-2.5 text-sm text-[var(--text-secondary)] placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 resize-none transition-colors disabled:opacity-60"
           />
-          <p className="text-xs text-gray-600 text-right mt-1">{reflection.length}/500</p>
+          <p className="text-xs text-[var(--text-muted)] text-right mt-1">{reflection.length}/500</p>
         </div>
 
         {saved ? (

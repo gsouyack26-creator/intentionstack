@@ -4,6 +4,28 @@
 :root {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+
+  /* ── Dark theme defaults ── */
+  --bg: #0a0a0f;
+  --card: #13131a;
+  --card-input: #0a0a0f;
+  --border: #1e1e2a;
+  --nav-bg: #0d0d14;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+}
+
+/* ── Light theme overrides ── */
+.light {
+  --bg: #faf9f7;
+  --card: #ffffff;
+  --card-input: #f3f4f6;
+  --border: #e5e7eb;
+  --nav-bg: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
 }
 
 * {
@@ -14,13 +36,13 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #0a0a0f;
-  color: #e5e7eb;
+  background-color: var(--bg);
+  color: var(--text-primary);
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #1e1e2a; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }

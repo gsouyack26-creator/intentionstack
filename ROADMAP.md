@@ -32,11 +32,11 @@
 - [x] Dark theme design system
 - [x] Page transition animations
 - [x] Bottom navigation (mobile-first)
-- [ ] Browser notifications (morning reminder, break nudge)
-- [ ] Dark/light mode toggle
+- [x] Browser notifications (morning reminder, break nudge)
+- [x] Dark/light mode toggle
 
 ## v1.0 - Launch
 - [ ] README with screenshots
-- [ ] GitHub Pages deploy action
-- [ ] Settings page (customize durations)
-- [ ] Data export (JSON/CSV)
+- [x] GitHub Pages deploy action
+- [x] Settings page (customize durations)
+- [x] Data export (JSON/CSV)

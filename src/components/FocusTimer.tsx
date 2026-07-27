@@ -18,7 +18,7 @@ const PHASE_LABELS = {
 };
 
 const PHASE_COLORS = {
-  idle: 'text-gray-400',
+  idle: 'text-[var(--text-muted)]',
   focus: 'text-amber-400',
   shortBreak: 'text-emerald-400',
   longBreak: 'text-purple-400',
@@ -35,7 +35,8 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
     settings?.focusDuration ?? 25,
     settings?.shortBreakDuration ?? 5,
     settings?.longBreakDuration ?? 15,
-    settings?.sessionsBeforeLong ?? 4
+    settings?.sessionsBeforeLong ?? 4,
+    settings?.notificationsEnabled ?? false
   );
   const sessionsBeforeLong = settings?.sessionsBeforeLong ?? 4;
 
@@ -48,11 +49,11 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
       </div>
 
       <TimerRing progress={timer.progress} size={220} phase={timer.phase}>
-        <span className="text-4xl font-mono font-bold text-white tracking-tight">
+        <span className="text-4xl font-mono font-bold text-[var(--text-primary)] tracking-tight">
           {formatTime(timer.secondsLeft)}
         </span>
         {timer.phase !== 'idle' && (
-          <span className="text-xs text-gray-500 mt-1 font-medium">
+          <span className="text-xs text-[var(--text-muted)] mt-1 font-medium">
             {PHASE_LABELS[timer.phase]}
           </span>
         )}
@@ -67,12 +68,12 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
                 'w-2.5 h-2.5 rounded-full transition-all duration-300',
                 i < (timer.sessionCount % sessionsBeforeLong)
                   ? 'bg-amber-400 scale-110'
-                  : 'bg-gray-700',
+                  : 'bg-[var(--border)]',
               ].join(' ')}
             />
           ))}
         </div>
-        <span className="text-xs text-gray-500">
+        <span className="text-xs text-[var(--text-muted)]">
           Session {(timer.sessionCount % sessionsBeforeLong) + 1} of {sessionsBeforeLong}
         </span>
       </div>
@@ -80,9 +81,9 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
       <div className="flex items-center gap-4">
         <button
           onClick={timer.reset}
-          className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+          className="w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] hover:border-amber-500/40 flex items-center justify-center transition-colors"
         >
-          <RotateCcw className="w-4 h-4 text-gray-400" />
+          <RotateCcw className="w-4 h-4 text-[var(--text-muted)]" />
         </button>
         <button
           onClick={timer.isRunning ? timer.pause : timer.start}
@@ -100,15 +101,15 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
         </button>
         <button
           onClick={timer.skip}
-          className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+          className="w-10 h-10 rounded-full bg-[var(--card)] border border-[var(--border)] hover:border-amber-500/40 flex items-center justify-center transition-colors"
         >
-          <SkipForward className="w-4 h-4 text-gray-400" />
+          <SkipForward className="w-4 h-4 text-[var(--text-muted)]" />
         </button>
       </div>
 
       {entry?.intentions && (
-        <div className="w-full bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-4">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+        <div className="w-full bg-[var(--card)] rounded-2xl border border-[var(--border)] p-4">
+          <p className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
             Working on
           </p>
           <div className="flex flex-col gap-2">
@@ -122,7 +123,7 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
                   'text-left p-2.5 rounded-xl text-sm transition-all duration-200',
                   timer.selectedIntention === idx
                     ? 'bg-amber-500/20 border border-amber-500/40 text-amber-200'
-                    : 'bg-white/3 border border-transparent text-gray-400 hover:bg-white/8',
+                    : 'bg-[var(--card-input)] border border-transparent text-[var(--text-muted)] hover:border-[var(--border)]',
                   intention.completed ? 'opacity-50 line-through' : '',
                 ].join(' ')}
               >
@@ -135,20 +136,20 @@ export const FocusTimer: React.FC<FocusTimerProps> = ({ entry, settings, streak 
       )}
 
       <div className="w-full grid grid-cols-3 gap-3">
-        <div className="bg-[#13131a] rounded-xl border border-[#1e1e2a] p-3 text-center">
+        <div className="bg-[var(--card)] rounded-xl border border-[var(--border)] p-3 text-center">
           <Target className="w-4 h-4 text-amber-400 mx-auto mb-1" />
-          <p className="text-xl font-bold text-white">{timer.sessionCount}</p>
-          <p className="text-xs text-gray-500">Sessions</p>
+          <p className="text-xl font-bold text-[var(--text-primary)]">{timer.sessionCount}</p>
+          <p className="text-xs text-[var(--text-muted)]">Sessions</p>
         </div>
-        <div className="bg-[#13131a] rounded-xl border border-[#1e1e2a] p-3 text-center">
+        <div className="bg-[var(--card)] rounded-xl border border-[var(--border)] p-3 text-center">
           <Clock className="w-4 h-4 text-purple-400 mx-auto mb-1" />
-          <p className="text-xl font-bold text-white">{entry?.focusMinutes ?? 0}</p>
-          <p className="text-xs text-gray-500">Minutes</p>
+          <p className="text-xl font-bold text-[var(--text-primary)]">{entry?.focusMinutes ?? 0}</p>
+          <p className="text-xs text-[var(--text-muted)]">Minutes</p>
         </div>
-        <div className="bg-[#13131a] rounded-xl border border-[#1e1e2a] p-3 text-center">
+        <div className="bg-[var(--card)] rounded-xl border border-[var(--border)] p-3 text-center">
           <Flame className="w-4 h-4 text-orange-400 mx-auto mb-1" />
-          <p className="text-xl font-bold text-white">{streak}</p>
-          <p className="text-xs text-gray-500">Day streak</p>
+          <p className="text-xl font-bold text-[var(--text-primary)]">{streak}</p>
+          <p className="text-xs text-[var(--text-muted)]">Day streak</p>
         </div>
       </div>
     </div>

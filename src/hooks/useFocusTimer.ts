@@ -3,6 +3,7 @@ import type { TimerPhase } from '../types';
 import { db } from '../db/db';
 import { todayKey } from '../utils/dates';
 import { playTimerEnd, playBreakEnd } from '../utils/sounds';
+import { fireBreakNotification } from '../utils/notifications';
 
 interface FocusTimerState {
   phase: TimerPhase;
@@ -26,7 +27,8 @@ export function useFocusTimer(
   focusDuration = 25,
   shortBreakDuration = 5,
   longBreakDuration = 15,
-  sessionsBeforeLong = 4
+  sessionsBeforeLong = 4,
+  notificationsEnabled = false
 ): UseFocusTimerReturn {
   const [state, setState] = useState<FocusTimerState>({
     phase: 'idle',
@@ -66,6 +68,11 @@ export function useFocusTimer(
       const newSessionCount = currentState.sessionCount + 1;
       const nextPhase: TimerPhase = newSessionCount % sessionsBeforeLong === 0
         ? 'longBreak' : 'shortBreak';
+
+      if (notificationsEnabled) {
+        fireBreakNotification(nextPhase === 'longBreak');
+      }
+
       setState(prev => ({
         ...prev,
         phase: nextPhase,
@@ -82,7 +89,7 @@ export function useFocusTimer(
         isRunning: false,
       }));
     }
-  }, [focusDuration, sessionsBeforeLong, getDuration]);
+  }, [focusDuration, sessionsBeforeLong, getDuration, notificationsEnabled]);
 
   useEffect(() => {
     if (state.isRunning) {

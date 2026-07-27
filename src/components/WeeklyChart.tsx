@@ -10,12 +10,14 @@ interface WeeklyChartProps {
   entries: DailyEntry[];
   type?: 'completion' | 'energy';
   title?: string;
+  theme?: 'dark' | 'light';
 }
 
 export const WeeklyChart: React.FC<WeeklyChartProps> = ({
   entries,
   type = 'completion',
   title,
+  theme = 'dark',
 }) => {
   const weeks = last8Weeks();
 
@@ -38,37 +40,43 @@ export const WeeklyChart: React.FC<WeeklyChartProps> = ({
   });
 
   const color = type === 'completion' ? '#f59e0b' : '#8b5cf6';
+  const isDark = theme === 'dark';
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tooltipFormatter = (value: any): [string, string] => {
-    if (type === 'completion') return [`${value}%`, 'Completion'];
-    return [`${value}`, 'Energy'];
+  const tooltipFormatter = (value: number | string | readonly (number | string)[] | undefined): [string, string] => {
+    if (type === 'completion') return [`${value ?? 0}%`, 'Completion'];
+    return [`${value ?? 0}`, 'Energy'];
   };
+
+  const gridColor = isDark ? '#1e1e2a' : '#e5e7eb';
+  const tickColor = isDark ? '#6b7280' : '#9ca3af';
+  const tooltipBg = isDark ? '#13131a' : '#ffffff';
+  const tooltipBorder = isDark ? '#1e1e2a' : '#e5e7eb';
+  const tooltipText = isDark ? '#e5e7eb' : '#111827';
 
   return (
     <div className="w-full">
-      {title && <h3 className="text-sm font-semibold text-gray-400 mb-3">{title}</h3>}
+      {title && <h3 className="text-sm font-semibold text-[var(--text-muted)] mb-3">{title}</h3>}
       <ResponsiveContainer width="100%" height={160}>
         <LineChart data={data} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e1e2a" />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
           <XAxis
             dataKey="label"
-            tick={{ fill: '#6b7280', fontSize: 11 }}
-            axisLine={{ stroke: '#1e1e2a' }}
+            tick={{ fill: tickColor, fontSize: 11 }}
+            axisLine={{ stroke: gridColor }}
             tickLine={false}
           />
           <YAxis
             domain={type === 'completion' ? [0, 100] : [0, 5]}
-            tick={{ fill: '#6b7280', fontSize: 11 }}
+            tick={{ fill: tickColor, fontSize: 11 }}
             axisLine={false}
             tickLine={false}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: '#13131a',
-              border: '1px solid #1e1e2a',
+              backgroundColor: tooltipBg,
+              border: `1px solid ${tooltipBorder}`,
               borderRadius: '8px',
-              color: '#e5e7eb',
+              color: tooltipText,
               fontSize: 12,
             }}
             formatter={tooltipFormatter}

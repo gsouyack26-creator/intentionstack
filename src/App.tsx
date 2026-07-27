@@ -5,11 +5,13 @@ import { FocusTimer } from './components/FocusTimer';
 import { EveningView } from './components/EveningView';
 import { HistoryView } from './components/HistoryView';
 import { PatternView } from './components/PatternView';
+import { SettingsView } from './components/SettingsView';
 import { OnboardingFlow } from './components/OnboardingFlow';
 import { useToday } from './hooks/useToday';
 import { useHistory } from './hooks/useHistory';
 import { useSettings } from './hooks/useSettings';
 import { useStreak } from './hooks/useStreak';
+import { maybeFireMorningReminder } from './utils/notifications';
 import type { Intention } from './types';
 
 export default function App() {
@@ -31,6 +33,13 @@ export default function App() {
       setCurrentView('morning');
     }
   }, [morningDone]);
+
+  // Morning reminder notification
+  useEffect(() => {
+    if (!settings?.notificationsEnabled) return;
+    if (morningDone) return;
+    maybeFireMorningReminder();
+  }, [settings?.notificationsEnabled, morningDone]);
 
   const handleMorningSave = async (intentions: Intention[]) => {
     if (entry) {
@@ -64,12 +73,17 @@ export default function App() {
     setCurrentView('focus');
   };
 
+  const handleToggleTheme = async () => {
+    if (!settings) return;
+    await updateSettings({ theme: settings.theme === 'dark' ? 'light' : 'dark' });
+  };
+
   if (settingsLoading || settings === null) {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 text-sm">Loading...</p>
+          <p className="text-[var(--text-muted)] text-sm">Loading...</p>
         </div>
       </div>
     );
@@ -96,7 +110,9 @@ export default function App() {
       case 'history':
         return <HistoryView entries={allEntries} />;
       case 'patterns':
-        return <PatternView entries={entries} allEntries={allEntries} streak={streak} />;
+        return <PatternView entries={entries} allEntries={allEntries} streak={streak} theme={settings.theme} />;
+      case 'settings':
+        return <SettingsView settings={settings} onUpdate={updateSettings} />;
     }
   };
 
@@ -106,6 +122,8 @@ export default function App() {
       onNavigate={setCurrentView}
       morningDone={morningDone}
       eveningDone={eveningDone}
+      theme={settings.theme}
+      onToggleTheme={handleToggleTheme}
     >
       {renderView()}
     </Layout>

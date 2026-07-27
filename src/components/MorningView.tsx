@@ -60,13 +60,13 @@ export const MorningView: React.FC<MorningViewProps> = ({ entry, onSave, onNavig
       </div>
 
       <div className="flex-1 px-6 -mt-6">
-        <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5 shadow-xl">
+        <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5 shadow-xl">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white">Today's Intentions</h2>
+            <h2 className="text-lg font-semibold text-[var(--text-primary)]">Today's Intentions</h2>
             {entry?.morningDone && !isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-amber-400 transition-colors"
+                className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-amber-400 transition-colors"
               >
                 <Pencil className="w-3.5 h-3.5" />
                 Edit
@@ -86,7 +86,7 @@ export const MorningView: React.FC<MorningViewProps> = ({ entry, onSave, onNavig
                     onChange={e => setTexts(prev => prev.map((t, i) => (i === idx ? e.target.value : t)))}
                     placeholder={PLACEHOLDERS[idx]}
                     rows={2}
-                    className="flex-1 bg-[#0a0a0f] border border-[#1e1e2a] rounded-xl px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 resize-none transition-colors"
+                    className="flex-1 bg-[var(--card-input)] border border-[var(--border)] rounded-xl px-3 py-2.5 text-sm text-[var(--text-secondary)] placeholder-gray-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 resize-none transition-colors"
                   />
                 </div>
               ))}

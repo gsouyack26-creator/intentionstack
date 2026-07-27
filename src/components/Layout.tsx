@@ -1,7 +1,7 @@
 import React from 'react';
-import { Sun, Timer, Moon, BookOpen, BarChart2 } from 'lucide-react';
+import { Sun, Timer, Moon, BookOpen, BarChart2, Settings, SunMedium } from 'lucide-react';
 
-export type ViewName = 'morning' | 'focus' | 'evening' | 'history' | 'patterns';
+export type ViewName = 'morning' | 'focus' | 'evening' | 'history' | 'patterns' | 'settings';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,6 +9,8 @@ interface LayoutProps {
   onNavigate: (view: ViewName) => void;
   morningDone?: boolean;
   eveningDone?: boolean;
+  theme?: 'dark' | 'light';
+  onToggleTheme?: () => void;
 }
 
 const NAV_ITEMS: { id: ViewName; label: string; icon: React.ReactNode }[] = [
@@ -17,6 +19,7 @@ const NAV_ITEMS: { id: ViewName; label: string; icon: React.ReactNode }[] = [
   { id: 'evening', label: 'Evening', icon: <Moon className="w-5 h-5" /> },
   { id: 'history', label: 'History', icon: <BookOpen className="w-5 h-5" /> },
   { id: 'patterns', label: 'Patterns', icon: <BarChart2 className="w-5 h-5" /> },
+  { id: 'settings', label: 'Settings', icon: <Settings className="w-5 h-5" /> },
 ];
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -25,15 +28,33 @@ export const Layout: React.FC<LayoutProps> = ({
   onNavigate,
   morningDone,
   eveningDone,
+  theme = 'dark',
+  onToggleTheme,
 }) => {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex flex-col max-w-lg mx-auto relative">
+    <div className="min-h-screen bg-[var(--bg)] flex flex-col max-w-lg mx-auto relative">
+      {/* Theme toggle — floating top-right */}
+      {onToggleTheme && (
+        <button
+          onClick={onToggleTheme}
+          aria-label="Toggle light/dark mode"
+          className="fixed top-3 right-3 z-50 w-9 h-9 rounded-full bg-[var(--card)] border border-[var(--border)] flex items-center justify-center shadow-md hover:scale-110 transition-transform"
+          style={{ maxWidth: 'calc(50vw + 256px - 12px)' }}
+        >
+          {theme === 'dark'
+            ? <SunMedium className="w-4 h-4 text-amber-400" />
+            : <Moon className="w-4 h-4 text-[var(--text-muted)]" />
+          }
+        </button>
+      )}
+
       <main className="flex-1 overflow-y-auto pb-20">
         <div className="animate-fade-in">
           {children}
         </div>
       </main>
-      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg bg-[#0d0d14]/95 backdrop-blur-xl border-t border-[#1e1e2a] z-50">
+
+      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg bg-[var(--nav-bg)]/95 backdrop-blur-xl border-t border-[var(--border)] z-50">
         <div className="flex items-stretch">
           {NAV_ITEMS.map(item => {
             const isActive = currentView === item.id;
@@ -46,11 +67,13 @@ export const Layout: React.FC<LayoutProps> = ({
                 onClick={() => onNavigate(item.id)}
                 className={[
                   'flex-1 flex flex-col items-center gap-1 py-3 px-1 relative transition-all duration-200',
-                  isActive ? 'text-amber-400' : 'text-gray-600 hover:text-gray-400',
+                  isActive
+                    ? 'text-amber-400'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)]',
                 ].join(' ')}
               >
                 {item.icon}
-                <span className="text-[10px] font-medium">{item.label}</span>
+                <span className="text-[9px] font-medium">{item.label}</span>
                 {isActive && (
                   <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-amber-400 rounded-full" />
                 )}

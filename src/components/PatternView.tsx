@@ -10,6 +10,7 @@ interface PatternViewProps {
   entries: DailyEntry[];
   allEntries: DailyEntry[];
   streak: number;
+  theme?: 'dark' | 'light';
 }
 
 function StatCard({
@@ -24,17 +25,17 @@ function StatCard({
   color?: string;
 }) {
   return (
-    <div className="bg-[#13131a] rounded-xl border border-[#1e1e2a] p-4 flex items-center gap-3">
+    <div className="bg-[var(--card)] rounded-xl border border-[var(--border)] p-4 flex items-center gap-3">
       <div className={`${color} flex-shrink-0`}>{icon}</div>
       <div>
-        <p className="text-xl font-bold text-white">{value}</p>
-        <p className="text-xs text-gray-500">{label}</p>
+        <p className="text-xl font-bold text-[var(--text-primary)]">{value}</p>
+        <p className="text-xs text-[var(--text-muted)]">{label}</p>
       </div>
     </div>
   );
 }
 
-export const PatternView: React.FC<PatternViewProps> = ({ entries, allEntries, streak }) => {
+export const PatternView: React.FC<PatternViewProps> = ({ entries, allEntries, streak, theme = 'dark' }) => {
   const stats = lifetimeStats(allEntries);
 
   if (allEntries.length === 0) {
@@ -49,34 +50,34 @@ export const PatternView: React.FC<PatternViewProps> = ({ entries, allEntries, s
 
   return (
     <div className="flex flex-col gap-5 px-6 py-6">
-      <h2 className="text-lg font-bold text-white">Patterns</h2>
+      <h2 className="text-lg font-bold text-[var(--text-primary)]">Patterns</h2>
 
       <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-2xl border border-amber-500/30 p-5 flex items-center gap-4">
         <div className="text-5xl">🔥</div>
         <div>
-          <p className="text-4xl font-black text-white">{streak}</p>
+          <p className="text-4xl font-black text-[var(--text-primary)]">{streak}</p>
           <p className="text-amber-300 font-semibold">day streak</p>
           <p className="text-xs text-amber-400/60 mt-0.5">Consecutive days with at least 1 intention done</p>
         </div>
       </div>
 
-      <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5">
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+      <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5">
+        <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-4">
           30-Day Heatmap
         </h3>
-        <StreakHeatmap entries={entries} />
+        <StreakHeatmap entries={entries} theme={theme} />
       </div>
 
-      <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5">
-        <WeeklyChart entries={allEntries} type="completion" title="Weekly Completion %" />
+      <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5">
+        <WeeklyChart entries={allEntries} type="completion" title="Weekly Completion %" theme={theme} />
       </div>
 
-      <div className="bg-[#13131a] rounded-2xl border border-[#1e1e2a] p-5">
-        <WeeklyChart entries={allEntries} type="energy" title="Average Energy (weekly)" />
+      <div className="bg-[var(--card)] rounded-2xl border border-[var(--border)] p-5">
+        <WeeklyChart entries={allEntries} type="energy" title="Average Energy (weekly)" theme={theme} />
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
+        <h3 className="text-sm font-semibold text-[var(--text-muted)] uppercase tracking-wider mb-3">
           Lifetime Stats
         </h3>
         <div className="grid grid-cols-2 gap-3">

@@ -67,16 +67,16 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
   if (step === 1) {
     const canProceed = texts.some(t => t.trim().length > 0);
     return (
-      <div className="flex flex-col min-h-screen bg-[#0a0a0f] px-6 py-12">
+      <div className="flex flex-col min-h-screen bg-[var(--bg)] px-6 py-12">
         <div className="mb-6">
           <div className="flex gap-2 mb-4">
             {[0, 1, 2].map(i => (
-              <div key={i} className={`h-1 flex-1 rounded-full ${i <= 1 ? 'bg-amber-500' : 'bg-gray-700'}`} />
+              <div key={i} className={`h-1 flex-1 rounded-full ${i <= 1 ? 'bg-amber-500' : 'bg-[var(--border)]'}`} />
             ))}
           </div>
-          <p className="text-xs text-gray-500 uppercase tracking-wider">Step 2 of 3</p>
-          <h2 className="text-2xl font-bold text-white mt-1">Set your first 3 intentions</h2>
-          <p className="text-gray-400 text-sm mt-1">What matters most to you today?</p>
+          <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Step 2 of 3</p>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)] mt-1">Set your first 3 intentions</h2>
+          <p className="text-[var(--text-muted)] text-sm mt-1">What matters most to you today?</p>
         </div>
         <div className="flex flex-col gap-4 flex-1">
           {texts.map((text, idx) => (
@@ -89,7 +89,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
                 onChange={e => setTexts(prev => prev.map((t, i) => i === idx ? e.target.value : t))}
                 placeholder={PLACEHOLDERS[idx]}
                 rows={2}
-                className="flex-1 bg-[#13131a] border border-[#1e1e2a] rounded-xl px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-amber-500/50 resize-none"
+                className="flex-1 bg-[var(--card)] border border-[var(--border)] rounded-xl px-3 py-2.5 text-sm text-[var(--text-secondary)] placeholder-gray-500 focus:outline-none focus:border-amber-500/50 resize-none"
               />
             </div>
           ))}
@@ -106,16 +106,16 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#0a0a0f] px-6 py-12">
+    <div className="flex flex-col min-h-screen bg-[var(--bg)] px-6 py-12">
       <div className="mb-6">
         <div className="flex gap-2 mb-4">
           {[0, 1, 2].map(i => (
-            <div key={i} className={`h-1 flex-1 rounded-full bg-amber-500`} />
+            <div key={i} className="h-1 flex-1 rounded-full bg-amber-500" />
           ))}
         </div>
-        <p className="text-xs text-gray-500 uppercase tracking-wider">Step 3 of 3</p>
-        <h2 className="text-2xl font-bold text-white mt-1">Your first focus session</h2>
-        <p className="text-gray-400 text-sm mt-1">Here's how Pomodoro works:</p>
+        <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Step 3 of 3</p>
+        <h2 className="text-2xl font-bold text-[var(--text-primary)] mt-1">Your first focus session</h2>
+        <p className="text-[var(--text-muted)] text-sm mt-1">Here's how Pomodoro works:</p>
       </div>
       <div className="flex flex-col gap-3 mb-8">
         {[
@@ -125,7 +125,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ onComplete }) =>
         ].map(item => (
           <div key={item.time} className={`flex items-center gap-4 p-4 rounded-xl border ${item.bg}`}>
             <span className={`text-2xl font-black ${item.color}`}>{item.time}</span>
-            <span className="text-gray-300 text-sm">{item.label}</span>
+            <span className="text-[var(--text-secondary)] text-sm">{item.label}</span>
           </div>
         ))}
       </div>
