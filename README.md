@@ -24,7 +24,17 @@ Your history builds into streaks, heatmaps, and trend charts that reveal your pr
 
 ## Screenshots
 
-> _Screenshots coming in v1.0_
+| Morning (Dark) | Focus Timer |
+|---|---|
+| ![Morning](docs/morning-dark.png) | ![Focus Timer](docs/focus-timer.png) |
+
+| Settings | Patterns |
+|---|---|
+| ![Settings](docs/settings.png) | ![Patterns](docs/patterns.png) |
+
+| Light Theme | Mobile Focus |
+|---|---|
+| ![Light Theme](docs/light-theme.png) | ![Mobile Focus](docs/mobile-focus.png) |
 
 ---
 
